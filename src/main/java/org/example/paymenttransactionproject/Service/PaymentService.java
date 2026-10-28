@@ -4,6 +4,7 @@ package org.example.paymenttransactionproject.Service;
 import jakarta.transaction.Transactional;
 import org.example.paymenttransactionproject.DTO.Paymentdto;
 import org.example.paymenttransactionproject.Entity.Payment;
+import org.example.paymenttransactionproject.Exception.AccountnotFoundException;
 import org.example.paymenttransactionproject.Repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 
@@ -80,8 +81,8 @@ return response;
 @Transactional
 public String transfer(String fromAcct, String toAcct, Double amount) {
 
-    Payment fromAccount=paymentRepository.findById(fromAcct).orElse(null);
-    Payment toAccount=paymentRepository.findById(toAcct).orElse(null);
+    Payment fromAccount=paymentRepository.findById(fromAcct).orElseThrow(()->new AccountnotFoundException("Account Not Found"));
+    Payment toAccount=paymentRepository.findById(toAcct).orElseThrow(()->new AccountnotFoundException("Account Not Found"));
 
     /*for(Paymentdto user:accounts) {
 
@@ -95,15 +96,19 @@ public String transfer(String fromAcct, String toAcct, Double amount) {
 
 
     // Validate accounts
-    if (fromAccount == null || toAccount == null) { return "Accounts are Invalid"; }
+    if (fromAccount == null || toAccount == null) {
+        throw new IllegalArgumentException("Account Are Empty");
+
+    }
 
     if(amount<=0)
     {
-        return "Insuficent Balance";
+        throw new IllegalArgumentException("Amount Gretaer than Zero");
+
     }
 
     if(fromAccount.equals(toAccount)){
-        return "Account Both Same";
+        throw new IllegalArgumentException("Both Account Are Equla");
     }
     fromAccount.setAcctbalance(fromAccount.getAcctbalance()-amount);
     toAccount.setAcctbalance(toAccount.getAcctbalance()+amount);
