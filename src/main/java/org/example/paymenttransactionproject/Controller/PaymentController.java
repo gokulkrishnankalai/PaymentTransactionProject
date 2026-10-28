@@ -1,6 +1,7 @@
 package org.example.paymenttransactionproject.Controller;
 
 import org.example.paymenttransactionproject.DTO.Paymentdto;
+import org.example.paymenttransactionproject.Entity.Payment;
 import org.example.paymenttransactionproject.Service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class PaymentController{
     }
 
     @GetMapping("/allaccount")
-    public List<Paymentdto> getall(){
+    public List<Payment> getall(){
         return paymentService.getall();
     }
 
