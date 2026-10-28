@@ -11,23 +11,21 @@ import java.util.List;
 @RequestMapping("/payment")
 public class PaymentController{
 
-    @Autowired
-    private final PaymentService payment;
 
+    private final PaymentService paymentService;
 
-    public PaymentController(PaymentService payment) {
-        this.payment = payment;
+    public PaymentController(PaymentService paymentService){
+        this.paymentService=paymentService;
     }
 
     @PostMapping("/transfer")
-    public String transfer(@RequestParam("fromAcct") String fromAcct,
-    @RequestParam("toAcct") String toAcct,
-    @RequestParam("amt") Double amt){
-        return payment.transfer(fromAcct,toAcct,amt);
+    public String transfer(@RequestParam("fromAcct") String fromAcct,@RequestParam("toAcct") String toAcct,@RequestParam("amount") Double amount){
+        return paymentService.transfer(fromAcct,toAcct,amount);
     }
 
-    @GetMapping("/getdetails")
-    public List<Paymentdto> getdetails(){
-        return payment.getAccounts();
+    @GetMapping("/allaccount")
+    public List<Paymentdto> getall(){
+        return paymentService.getall();
     }
+
 }

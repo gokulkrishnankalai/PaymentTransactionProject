@@ -9,70 +9,68 @@ import java.util.List;
 
 @Service
 public class PaymentService{
-List<Paymentdto> accounts=new ArrayList<>();
 
-    public PaymentService() {
-        accounts.add(new Paymentdto( "840092501685",1000.00));
-        accounts.add(new Paymentdto( "840092124323",2000.00));
-        accounts.add(new Paymentdto( "840087785634",5000.00));
-        accounts.add(new Paymentdto( "840043678612",8000.00));
+/*
+    Paymentdto d1=new Paymentdto("12345678",2300.00);
+    Paymentdto d2=new Paymentdto("12345678",2300.00);
+    Paymentdto d3=new Paymentdto("12345678",2300.00);
+    Paymentdto d4=new Paymentdto("12345678",2300.00);
+*/
+
+    List<Paymentdto> accounts=new ArrayList<>();
+
+    public PaymentService(){
+        accounts.add(new Paymentdto("123456789",4000.00));
+        accounts.add(new Paymentdto("365634636",6000.00));
+        accounts.add(new Paymentdto("432634545",8000.00));
+        accounts.add(new Paymentdto("532667534",2000.00));
     }
 
-    public String transfer(String fromacct, String toAcct, Double amt) {
+
+    public String transfer(String fromAcct, String toAcct, Double amount) {
 
         Paymentdto fromAccount=null;
         Paymentdto toAccount=null;
 
-        for(Paymentdto account:accounts){
-            // 1. Find From Account
-            if(account.getAcctnum().equals(fromacct)){
-                fromAccount=account;
-            }
-            if(account.getAcctnum().equals(toAcct)){
-                toAccount=account;
-            }
-            // 2. Validate accounts
-            if(fromAccount==null || toAccount==null){
-                return "Account Not Found";
-            }
-            // 3. Validate amount
-            if(amt<=0){
-                return "Invalid Transfer Amount";
-            }
-            // 4. Validate same account
-            if(fromAccount.equals(toAccount)){
-                return "From Account and to Account Are Equall";
-            }
+        for(Paymentdto user:accounts) {
 
-            // 5. Check balance from Account
-            if(fromAccount.getBalance()<amt){
-                return "Insufficient Balance";
+            if (user.getAcctnum().equals(fromAcct)) {
+                fromAccount = user;
             }
-
-            // 6. Debit From Account
-            fromAccount.setBalance(fromAccount.getBalance()-amt);
-            // 7. Credit To Account
-            toAccount.setBalance(toAccount.getBalance()+amt);
-
-
-
+            if (user.getAcctnum().equals(toAcct)) {
+                toAccount = user;
+            }
         }
-        String response =
-                "Payment Successful!\n\n" +
 
-                        "From Account: " + fromacct + "\n" +
-                        "Debited Amount: ₹" + amt + "\n" +
-                        "Remaining Balance: ₹" +
-                        fromAccount.getBalance() + "\n\n" +
+            // Validate accounts
+            if (fromAccount == null || toAccount == null) { return "Accounts are Invalid"; }
 
-                        "To Account: " + toAcct + "\n" +
-                        "Credited Amount: ₹" + amt + "\n" +
-                        "Available Balance: ₹" +
-                        toAccount.getBalance();
-        return response;
+            if(amount<=0)
+            {
+                return "Insuficent Balance";
+            }
+
+            if(fromAccount.equals(toAccount)){
+                return "Account Both Same";
+            }
+            fromAccount.setAcctbalance(fromAccount.getAcctbalance()-amount);
+            toAccount.setAcctbalance(toAccount.getAcctbalance()+amount);
+
+
+
+
+        String response="Transaction Succesfull \n \n"+ " From Account " +fromAccount.getAcctnum()+"\n"+
+                "Debited Amount" +amount +"\n"+
+                "Remaining Balance "+fromAccount.getAcctbalance()+"\n\n"+
+
+                "ToAccount "+toAccount.getAcctnum()+"\n"+
+                "Credited Amount "+amount+"\n"+
+                "Remaining Balance "+toAccount.getAcctbalance();
+
+return response;
     }
 
-    public List<Paymentdto> getAccounts() {
+    public List<Paymentdto> getall() {
         return accounts;
     }
 }

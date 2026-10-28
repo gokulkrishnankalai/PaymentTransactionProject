@@ -1,35 +1,39 @@
 package org.example.paymenttransactionproject.DTO;
 
-public class Paymentdto{
-    public String getAcctnum() {
-        return acctnum;
-    }
 
-    public Paymentdto(String acctnum, double balance) {
-        this.acctnum = acctnum;
-        this.balance = balance;
+public class Paymentdto{
+
+   private String acctnum;
+    private double acctbalance;
+
+    public Paymentdto(String acctnum, double acctbalance)
+    {
+        this.acctnum=acctnum;
+        this.acctbalance=acctbalance;
     }
 
     @Override
     public String toString() {
         return "Paymentdto{" +
                 "acctnum='" + acctnum + '\'' +
-                ", balance=" + balance +
+                ", acctbalance=" + acctbalance +
                 '}';
     }
 
-    public void setAcctnum(String acctnum) {
-        this.acctnum = acctnum;
+    public String getAcctnum(){
+        return acctnum;
     }
 
-    public double getBalance() {
-        return balance;
+    public void setAcctnum(String acctnum){
+        this.acctnum=acctnum;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public Double getAcctbalance(){
+        return acctbalance;
     }
 
-    private String acctnum;
-    private double balance;
+    public void setAcctbalance(Double acctbalance ){
+        this.acctbalance=acctbalance;
+    }
+
 }
